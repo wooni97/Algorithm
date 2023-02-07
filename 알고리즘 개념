@@ -1,1 +1,44 @@
 
+스택이란?
+
+스택은 대표적인 FIFO(Fisrt In Last Out) 자료구조로, 한쪽 끝에서만 원소를 넣거나 뺄 수 있다.
+
+스택의 성질
+
+원소 추가/제거 O(1)
+제일 상단의 원소 확인 O(1)
+제일 상단이 아닌 나머지 원소들의 확인/변경이 원칙적으로 불가능하다
+스택 헤더 파일
+
+stack STL을 사용하기 위해서는 #include 헤더파일을 선언해줘야 한다.
+stack<데이터 타입> 이름 으로 선언한다.
+
+#include <stack>
+stack<int> stack;
+스택 기본 함수
+
+1. push (스택에 데이터 추가)
+
+push 함수는 stack에 x를 추가하는 함수이다.
+
+stack.push(element);
+2.pop (스텍의 데이터 삭제)
+
+pop 함수는 stack의 꼭대기에 위치한 원소를 제거하는 함수이다.
+
+stack.pop();
+3.top (스택의 제일 위 데이터 반환)
+
+top 함수는 스택의 제일 최상위 데이터를 반환한다.
+
+stack.top();
+4. size (스택의 사이즈 반환)
+
+size 함수는 스택의 현재 사이즈를 반환한다.
+
+stack.size();
+5. empty (스택이 비어있는지 확인)
+
+empty 함수는 스택이 비어있는지 확인한다
+
+stack.empty()
