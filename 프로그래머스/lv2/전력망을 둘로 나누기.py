@@ -1,3 +1,20 @@
+
+def BFS(tree,n):
+    blank = [1]
+    cnt = 1
+    visited = [False] * (n+1)
+    visited[1] = True
+    
+    while blank :
+        top = blank.pop()
+        for i in range(1,n+1) :
+            if tree[top][i] == 1 and visited[i] == False :
+                visited[i] = True
+                blank.append(i)
+                cnt += 1
+    return cnt           
+        
+
 def solution(n, wires):
     answer = []
     
@@ -13,18 +30,7 @@ def solution(n, wires):
         tree[wire[0]][wire[1]] = 0
         tree[wire[1]][wire[0]] = 0
         
-        blank = [1]
-        cnt = 1
-        visited = [False] * (n+1)
-        visited[1] = True
-        while blank :
-            top = blank.pop()
-            for i in range(1,n+1) :
-                if tree[top][i] == 1 and visited[i] == False :
-                    visited[i] = True
-                    blank.append(i)
-                    cnt += 1
-                    
+        cnt = BFS(tree,n)
         answer.append(abs(cnt-(n-cnt)))
         
         tree[wire[0]][wire[1]] = 1
