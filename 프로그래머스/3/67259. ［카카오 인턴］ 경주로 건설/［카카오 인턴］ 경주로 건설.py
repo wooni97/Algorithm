@@ -1,35 +1,33 @@
 from collections import deque
 
-
 def solution(board):
-    answer = int(1e9)
-    n = len(board)
-    dx = [-1, 0, 1, 0]
-    dy = [0, 1, 0, -1]
+    def bfs(start):
+        direc = {0:[-1, 0], 1:[0, 1], 2:[1, 0], 3:[0, -1]} # 북,동,남,서 순서
+        length = len(board)
+        visited = [[987654321]*length for _ in range(length)]
+        visited[0][0] = 0
 
-    q = deque()
-    # x,y,direction,cost
-    q.append((0, 0, -1, 0))
-    visited = {(0, 0, 0): 0, (0, 0, 1): 0, (0, 0, 2): 0, (0, 0, 3): 0}
-    while q:
-        x, y, direction, cost = q.popleft()
+        q = deque([start]) # x, y, cost, dir
+        while q:
+            x, y, cost, d = q.popleft()
+            for i in range(4): # 북,동,남,서 순서
+                nx = x + direc[i][0]
+                ny = y + direc[i][1]
 
-        for d in range(4):
-            px = x + dx[d]
-            py = y + dy[d]
-            if 0 <= px and px < n and 0 <= py and py < n and not board[px][py]:
-                if (direction - d) % 2 == 0 or direction == -1:
-                    new_cost = cost + 100
-                else:
-                    new_cost = cost + 600
-
-                if px == n - 1 and py == n - 1:
-                    answer = min(answer, new_cost)
-                elif visited.get((px, py, d)) is None or visited.get((px, py, d)) > new_cost:
-                    visited[(px, py, d)] = new_cost
-                    q.append((px, py, d, new_cost))
-
-    return answer
+                # board 안에 있고, 벽이 아닌지 확인
+                if 0 <= nx < length and 0 <= ny < length and board[nx][ny] == 0:
+                    
+                    # 비용계산
+                    if i == d : ncost = cost + 100
+                    else : ncost =  cost + 600
+                    # 최소 비용이면 갱신 후 endeque!
+                    if ncost < visited[nx][ny]:
+                        visited[nx][ny] = ncost
+                        q.append([nx, ny, ncost, i])
+                        
+        return visited[-1][-1]
+    
+    return min([bfs((0, 0, 0, 1)), bfs((0, 0, 0, 2))])
 # from collections import deque
 # import sys
 
@@ -41,42 +39,47 @@ def solution(board):
     
 
 # def solution(board):
+    
 #     INF = sys.maxsize
+    
 #     STRAIGHT_ROAD_FEE = 100
 #     CORNER_ROAD_FEE = 600  # 코너 비용 + 직선 비용
+    
 #     n = len(board)
     
 #     visited = [[INF] * n for _ in range(n)]
 #     visited[0][0] = 0    
-
+    
+#     #상, 하, 우, 좌
 #     d = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     
 #     queue = deque()
     
 #     if board[0][1] != 1 :
-#         queue.append((0, 1, (0, 1)))  # 출발 지점 설정
+#         queue.append((0, 1, (0, 1), 100))  
 #         visited[0][1] = STRAIGHT_ROAD_FEE
         
 #     if board[1][0] != 1 :
-#         queue.append((1, 0, (1, 0)))
+#         queue.append((1, 0, (1, 0), 100))
 #         visited[1][0] = STRAIGHT_ROAD_FEE
     
 
 #     while queue:
-#         x, y, direction = queue.popleft()
-    
+#         x, y, direction, cost = queue.popleft()
+        
+            
 #         for next_d in d:
 #             dx, dy = next_d
 #             xx, yy = x + dx, y + dy
             
-#             if 0 <= xx < n and 0 <= yy < n and board[xx][yy] == 0:
+#             if 0 <= xx < n and 0 <= yy < n and board[xx][yy] != 1:
 #                 if is_corner(direction, next_d):
-#                     cost = visited[x][y] + CORNER_ROAD_FEE
+#                     next_cost = cost + CORNER_ROAD_FEE
 #                 else:
-#                     cost = visited[x][y] + STRAIGHT_ROAD_FEE
+#                     next_cost = cost + STRAIGHT_ROAD_FEE
                 
-#                 if cost <= visited[xx][yy]:
-#                     visited[xx][yy] = cost
-#                     queue.append((xx, yy, next_d))
-
+#                 if next_cost <= visited[xx][yy] :
+#                     visited[xx][yy] = next_cost
+#                     queue.append((xx, yy, next_d, next_cost))
+    
 #     return visited[-1][-1]
