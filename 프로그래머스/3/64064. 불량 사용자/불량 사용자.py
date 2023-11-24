@@ -1,26 +1,43 @@
-def is_match(user_id, banned_id):
-    # 불량 사용자에 해당하는지 체크하는 함수
-    if len(user_id) != len(banned_id):
-        return False
-    for i in range(len(user_id)):
-        if banned_id[i] != '*' and user_id[i] != banned_id[i]:
-            return False
-    return True
 
-def dfs(index, user_ids, banned_ids, selected, result):
-    if index == len(banned_ids):
-        # 불량 사용자 목록에 모두 대응되는 경우
-        result.add(tuple(sorted(selected)))
+def is_match(user_id_element, banned_id_element):
+    if len(user_id_element) != len(banned_id_element):
+        return False
+
+    for i in range(len(user_id_element)):
+        if banned_id_element[i] == "*":
+            continue
+        else :
+            if banned_id_element[i] != user_id_element[i]:
+                return False
+
+    return True
+def dfs(index, user_id, banned_id, ids, result) :
+    if index == len(banned_id):
+        result.add(tuple(sorted(ids)))
         return
 
-    for i in range(len(user_ids)):
-        if i not in selected and is_match(user_ids[i], banned_ids[index]):
-            # 아직 선택되지 않은 사용자 아이디이고, 불량 사용자에 해당하는 경우
-            selected.add(i)
-            dfs(index + 1, user_ids, banned_ids, selected, result)
-            selected.remove(i)
+    for i in range(len(user_id)):
+        if i not in ids and is_match(user_id[i], banned_id[index]):
+            ids.add(i)
+            dfs(index+1, user_id, banned_id, ids, result)
+            ids.remove(i)
 
-def solution(user_ids, banned_ids):
-    result = set()  # 중복을 방지하기 위한 집합
-    dfs(0, user_ids, banned_ids, set(), result)
-    return len(result)
+def solution(user_id, banned_id):
+   result = set()
+   ids = set()
+   dfs(0, user_id, banned_id, ids, result)
+   return len(result)
+
+if __name__ == '__main__':
+    user_id = ["frodo", "fradi", "crodo", "abc123", "frodoc"]
+    banned_id = ["fr*d*", "abc1**"]
+
+    user_id2 = ["frodo", "fradi", "crodo", "abc123", "frodoc"]
+    banned_id2 = ["*rodo", "*rodo", "******"]
+
+    user_id3 = ["frodo", "fradi", "crodo", "abc123", "frodoc"]
+    banned_id3 = ["fr*d*", "*rodo", "******", "******"]
+
+    print(solution(user_id, banned_id))
+    print(solution(user_id2, banned_id2))
+    print(solution(user_id3, banned_id3))
