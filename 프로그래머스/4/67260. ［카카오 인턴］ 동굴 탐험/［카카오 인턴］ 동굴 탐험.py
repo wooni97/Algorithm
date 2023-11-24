@@ -9,7 +9,7 @@ def solution(n, path, order):
         graph[node1].append(node2)
         graph[node2].append(node1)
         
-    orders = [0 for _ in range(n)]
+    orders = {}
     
     for pre, post in order :
         orders[post] = pre
@@ -23,7 +23,7 @@ def solution(n, path, order):
     while queue :
         visit_node = queue.popleft()
         
-        if orders[visit_node] and visited[orders[visit_node]] == False :
+        if visit_node in orders and visited[orders[visit_node]] == False :
             after[orders[visit_node]] = visit_node
             continue
         
