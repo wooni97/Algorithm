@@ -1,25 +1,23 @@
 import sys
+input = sys.stdin.readline
+answer = sys.maxsize
 
-INF = sys.maxsize
-N, S = map(int, input().split())
+n, s = map(int, input().split())
 arr = list(map(int, input().split()))
 
+st, en = 0, 0
+sum = arr[st]
 
-
-end = 0
-MIN = INF
-total = arr[0]
-
-for start in range(N) :
-    while end < N and total < S :
-        end += 1
-        if end != N:
-            total += arr[end]
-    if end == N :
-        break
-
-    MIN = min(MIN, end - start + 1)
-    total -= arr[start]
-
-if MIN == INF : MIN = 0
-print(MIN)
+while en < n and st <= en:
+    if sum < s:
+        en += 1
+        if en != n:
+            sum += arr[en]
+    elif sum >= s:
+        answer = min(answer, en - st + 1)
+        sum -= arr[st]
+        st += 1
+        
+if answer == sys.maxsize:
+    answer = 0
+print(answer)
