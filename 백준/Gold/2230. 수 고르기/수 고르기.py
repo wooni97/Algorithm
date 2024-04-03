@@ -10,7 +10,7 @@ for _ in range(n):
 
 nums.sort()
 
-en = 0
+en = 1
 for i in range(n):
     while(en < n and nums[en] - nums[i] < m):
         en += 1
