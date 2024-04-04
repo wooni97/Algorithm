@@ -20,7 +20,7 @@ players = [i for i in range(n)]
 s = [list(map(int, input().split())) for _ in range(n)]
 
 for start in combinations(players, n //2):
-    link = [player for player in players if player not in start]
+    link = set(players) - set(start)
 
     start_power, link_power = 0, 0
     for pair in combinations(start, 2):
