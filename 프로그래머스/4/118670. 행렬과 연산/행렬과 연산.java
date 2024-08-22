@@ -4,8 +4,8 @@ class Solution {
     private Deque<Integer> left;
     private Deque<Integer> right;
     private LinkedList<Deque<Integer>> center;
-    int rowSize;
-    int colSize;
+    private int rowSize;
+    private int colSize;
     
     public int[][] solution(int[][] rc, String[] operations) {
         int[][] answer = {};
@@ -65,9 +65,11 @@ class Solution {
     private int[][] createToArray() {
         int[][] result = new int[rowSize][colSize];
         
+        Iterator<Integer> iterator = left.iterator();
+        Iterator<Integer> iterator2 = right.iterator();
         for(int i = 0; i < rowSize; i++) {
-            result[i][0] = left.pollFirst();
-            result[i][colSize-1] = right.pollFirst();
+            result[i][0] = iterator.next();
+            result[i][colSize-1] = iterator2.next();
         }
         
         for(int i = 0; i < rowSize; i++) {
