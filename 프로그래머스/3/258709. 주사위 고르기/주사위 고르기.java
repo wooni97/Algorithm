@@ -2,8 +2,8 @@ import java.util.*;
 
 class Solution {
     List<List<Integer>> combinations;
+    
     public int[] solution(int[][] dice) {
-        
         combinations = new ArrayList<>();
         
         int diceCount = dice.length;
