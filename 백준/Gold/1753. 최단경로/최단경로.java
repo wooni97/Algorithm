@@ -57,7 +57,7 @@ public class Main {
 
         while(!pq.isEmpty()) {
             Node curr = pq.poll();
-            if(distance[curr.end] != curr.weight) continue;
+            if(distance[curr.end] < curr.weight) continue;
 
             for(Node nxt : graph[curr.end]){
                 if(distance[nxt.end] > distance[curr.end] + nxt.weight) {
