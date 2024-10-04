@@ -1,54 +1,51 @@
-
 import java.util.*;
 import java.io.*;
 
 public class Main {
+    static int n;
+    static int m;
+    static List<Integer>[] graph;
+
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] line = br.readLine().split(" ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int n = Integer.parseInt(line[0]);
-        int m = Integer.parseInt(line[1]);
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-        int[][] graph = new int[n+1][n+1];
-
-
-        for(int i = 0; i < m; i++){
-            String[] nodes = br.readLine().split(" ");
-            int node1 = Integer.parseInt(nodes[0]);
-            int node2 = Integer.parseInt(nodes[1]);
-            graph[node1][node2] = 1;
-            graph[node2][node1] = 1;
+        graph = new List[n+1];
+        for(int i = 0; i <= n; i++) {
+            graph[i] = new ArrayList<>();
         }
 
-        System.out.println(solution(n, graph));
-    }
+        for(int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
 
-    public static int solution(int n, int[][] graph){
+            int node1 = Integer.parseInt(st.nextToken());
+            int node2 = Integer.parseInt(st.nextToken());
+
+            graph[node1].add(node2);
+            graph[node2].add(node1);
+        }
+
         boolean[] visited = new boolean[n+1];
-        int answer = 0;
+        int cnt = 0;
+        for(int i = 1; i <= n; i++) {
+            if(visited[i]) continue;
 
-        for(int i = 1; i < n+1; i++) {
-            if(!visited[i]){
-                operator(i, n, visited, graph);
-                answer += 1;
-            }
+            dfs(i, visited);
+            cnt++;
         }
 
-        return answer;
+        System.out.println(cnt);
     }
 
-    public static boolean[] operator(int i, int n, boolean[] visited, int[][] graph){
-        visited[i] = true;
+    private static void dfs(int node, boolean[] visited) {
+        visited[node] = true;
 
-        for(int j = 1; j < n + 1; j++){
-            if(graph[i][j] == 1 && !visited[j]){
-                visited = operator(j, n, visited, graph);
-            }
+        for(Integer next : graph[node]) {
+            if(visited[next]) continue;
+            dfs(next, visited);
         }
-
-        return visited;
     }
-
-
 }
